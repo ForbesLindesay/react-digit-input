@@ -1,6 +1,6 @@
 {
   "name": "react-digit-input",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "description": "Higher Order Component for pass code/separated digit input.",
