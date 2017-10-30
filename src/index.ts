@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 export interface InputAttributes
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends Pick<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      'value' | 'onKeyDown' | 'onChange'
+    > {
   ref: (input: HTMLInputElement | null) => void;
 }
 export interface DigitInputProps {
