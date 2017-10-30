@@ -1,5 +1,7 @@
 # react-digit-input
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ForbesLindesay/react-digit-input.svg)](https://greenkeeper.io/)
+
 Higher Order Component for passcode/separated digit input.
 
 [![Build Status](https://img.shields.io/travis/ForbesLindesay/react-digit-input/master.svg)](https://travis-ci.org/ForbesLindesay/react-digit-input)
