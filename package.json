@@ -1,0 +1,58 @@
+{
+  "name": "react-digit-input",
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "description": "Higher Order Component for pass code/separated digit input.",
+  "keywords": [],
+  "files": ["lib/"],
+  "dependencies": {
+    "w3c-keyname": "^1.1.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.39",
+    "@types/jest": "*",
+    "@types/react": "^16.0.18",
+    "@types/react-dom": "^16.0.2",
+    "browserify-middleware": "^8.0.0",
+    "express": "^4.16.2",
+    "husky": "*",
+    "jest": "*",
+    "lint-staged": "*",
+    "prettier": "*",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "ts-jest": "*",
+    "typescript": "*"
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "prepublish": "npm run build && rimraf lib/demo lib/__test__",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prettier:check": "prettier --list-different \"src/**/*.{ts,tsx}\"",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "jest ./src --coverage",
+    "watch": "jest ./src --coverage --watch"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["prettier --write", "git add"]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": ["**/*.test.(ts|tsx|js)"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForbesLindesay/react-digit-input.git"
+  },
+  "author": {
+    "name": "Forbes Lindesay",
+    "url": "http://github.com/ForbesLindesay"
+  },
+  "license": "MIT"
+}

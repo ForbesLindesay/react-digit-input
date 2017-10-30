@@ -1,0 +1,10 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "declaration": true,
+    "lib": ["dom", "es2017"],
+    "outDir": "lib",
+    "strict": true,
+    "jsx": "react"
+  }
+}
