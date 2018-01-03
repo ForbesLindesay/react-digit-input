@@ -25,14 +25,7 @@ export interface DigitInputProps {
 }
 export default class DigitInput extends React.Component<DigitInputProps> {
   private _inputs: (HTMLInputElement | null)[] = [];
-  render():
-    | JSX.Element
-    | JSX.Element[]
-    | React.ReactPortal
-    | string
-    | number
-    | null
-    | false {
+  render() {
     let value = this.props.value;
     while (value.length < this.props.length) {
       value += ' ';
@@ -47,6 +40,7 @@ export default class DigitInput extends React.Component<DigitInputProps> {
           const input = this._inputs[i];
           switch (e.key) {
             case 'Backspace':
+              e.preventDefault();
               if (value[i] === ' ' || (input && input.selectionEnd === 0)) {
                 if (i > 0) {
                   this.props.onChange(
@@ -64,6 +58,7 @@ export default class DigitInput extends React.Component<DigitInputProps> {
               }
               break;
             case 'ArrowLeft':
+              e.preventDefault();
               if (i > 0) {
                 const previousInput = this._inputs[i - 1];
                 if (previousInput) {
@@ -75,6 +70,7 @@ export default class DigitInput extends React.Component<DigitInputProps> {
               }
               break;
             case 'ArrowRight':
+              e.preventDefault();
               if (i + 1 < this.props.length) {
                 const nextInput = this._inputs[i + 1];
                 if (nextInput) {
@@ -86,29 +82,53 @@ export default class DigitInput extends React.Component<DigitInputProps> {
               }
               break;
             default:
-              if (
-                e.key.length === 1 &&
-                this.props.acceptedCharacters.test(e.key)
-              ) {
-                this.props.onChange(
-                  value.substring(0, i) + e.key + value.substring(i + 1),
-                );
-                if (i + 1 < this.props.length) {
-                  const nextInput = this._inputs[i + 1];
-                  if (nextInput) {
-                    nextInput.focus();
-                    window.requestAnimationFrame(() => {
-                      nextInput.setSelectionRange(0, 0);
-                    });
+              if (e.key.length === 1 && !(e.metaKey || e.altKey || e.ctrlKey)) {
+                e.preventDefault();
+                if (this.props.acceptedCharacters.test(e.key)) {
+                  this.props.onChange(
+                    value.substring(0, i) + e.key + value.substring(i + 1),
+                  );
+                  if (i + 1 < this.props.length) {
+                    const nextInput = this._inputs[i + 1];
+                    if (nextInput) {
+                      nextInput.focus();
+                      window.requestAnimationFrame(() => {
+                        nextInput.setSelectionRange(0, 0);
+                      });
+                    }
                   }
                 }
               }
           }
         },
-        onChange: e => {},
+        onChange: e => {
+          const v = e.target.value
+            .split('')
+            .filter(c => this.props.acceptedCharacters.test(c))
+            .join('');
+          this.props.onChange(
+            (value.substring(0, i) + v + value.substring(i + v.length)).substr(
+              0,
+              this.props.length,
+            ),
+          );
+          if (i < this.props.length - 1) {
+            const nextInput = this._inputs[
+              i + v.length < this.props.length
+                ? i + v.length
+                : this.props.length - 1
+            ];
+            if (nextInput) {
+              nextInput.focus();
+              window.requestAnimationFrame(() => {
+                nextInput.setSelectionRange(0, 0);
+              });
+            }
+          }
+        },
       });
     }
-    return this.props.children(props) as any;
+    return this.props.children(props);
   }
 }
 module.exports = DigitInput;
