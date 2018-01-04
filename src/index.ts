@@ -1,11 +1,12 @@
 import * as React from 'react';
+import {findDOMNode} from 'react-dom';
 
 export interface InputAttributes
   extends Pick<
       React.InputHTMLAttributes<HTMLInputElement>,
       'value' | 'onKeyDown' | 'onChange'
     > {
-  ref: (input: HTMLInputElement | null) => void;
+  ref: (input: React.ReactInstance | null) => void;
 }
 export interface DigitInputProps {
   acceptedCharacters: RegExp;
@@ -23,8 +24,34 @@ export interface DigitInputProps {
     | false;
   onChange: (value: string) => any;
 }
+function isHTMLTextAreaElement(
+  element: Element,
+): element is HTMLTextAreaElement {
+  return element.tagName === 'TEXTAREA';
+}
+function isHTMLInputElement(element: Element): element is HTMLInputElement {
+  return element.tagName === 'INPUT';
+}
 export default class DigitInput extends React.Component<DigitInputProps> {
-  private _inputs: (HTMLInputElement | null)[] = [];
+  private _inputs: (React.ReactInstance | null | void)[] = [];
+  private _getInput(i: number): HTMLTextAreaElement | HTMLInputElement | null {
+    const input = this._inputs[i];
+    if (input == null) {
+      return null;
+    }
+    const element = findDOMNode(input);
+    if (isHTMLTextAreaElement(element) || isHTMLInputElement(element)) {
+      return element;
+    }
+    const innerElement = element.querySelector('textarea,input');
+    if (
+      innerElement &&
+      (isHTMLTextAreaElement(innerElement) || isHTMLInputElement(innerElement))
+    ) {
+      return innerElement;
+    }
+    return null;
+  }
   render() {
     let value = this.props.value;
     while (value.length < this.props.length) {
@@ -37,7 +64,7 @@ export default class DigitInput extends React.Component<DigitInputProps> {
         ref: element => (this._inputs[i] = element),
         value: value[i] === ' ' ? '' : value[i],
         onKeyDown: e => {
-          const input = this._inputs[i];
+          const input = this._getInput(i);
           switch (e.key) {
             case 'Backspace':
               e.preventDefault();
@@ -46,7 +73,7 @@ export default class DigitInput extends React.Component<DigitInputProps> {
                   this.props.onChange(
                     value.substring(0, i - 1) + ' ' + value.substring(i),
                   );
-                  const previousInput = this._inputs[i - 1];
+                  const previousInput = this._getInput(i - 1);
                   if (previousInput) {
                     previousInput.focus();
                   }
@@ -60,11 +87,11 @@ export default class DigitInput extends React.Component<DigitInputProps> {
             case 'ArrowLeft':
               e.preventDefault();
               if (i > 0) {
-                const previousInput = this._inputs[i - 1];
+                const previousInput = this._getInput(i - 1);
                 if (previousInput) {
                   previousInput.focus();
                   window.requestAnimationFrame(() => {
-                    previousInput.setSelectionRange(1, 1);
+                    (previousInput as HTMLInputElement).setSelectionRange(1, 1);
                   });
                 }
               }
@@ -72,11 +99,11 @@ export default class DigitInput extends React.Component<DigitInputProps> {
             case 'ArrowRight':
               e.preventDefault();
               if (i + 1 < this.props.length) {
-                const nextInput = this._inputs[i + 1];
+                const nextInput = this._getInput(i + 1);
                 if (nextInput) {
                   nextInput.focus();
                   window.requestAnimationFrame(() => {
-                    nextInput.setSelectionRange(1, 1);
+                    (nextInput as HTMLInputElement).setSelectionRange(1, 1);
                   });
                 }
               }
@@ -89,11 +116,11 @@ export default class DigitInput extends React.Component<DigitInputProps> {
                     value.substring(0, i) + e.key + value.substring(i + 1),
                   );
                   if (i + 1 < this.props.length) {
-                    const nextInput = this._inputs[i + 1];
+                    const nextInput = this._getInput(i + 1);
                     if (nextInput) {
                       nextInput.focus();
                       window.requestAnimationFrame(() => {
-                        nextInput.setSelectionRange(0, 0);
+                        (nextInput as HTMLInputElement).setSelectionRange(0, 0);
                       });
                     }
                   }
@@ -113,15 +140,15 @@ export default class DigitInput extends React.Component<DigitInputProps> {
             ),
           );
           if (i < this.props.length - 1) {
-            const nextInput = this._inputs[
+            const nextInput = this._getInput(
               i + v.length < this.props.length
                 ? i + v.length
-                : this.props.length - 1
-            ];
+                : this.props.length - 1,
+            );
             if (nextInput) {
               nextInput.focus();
               window.requestAnimationFrame(() => {
-                nextInput.setSelectionRange(0, 0);
+                (nextInput as HTMLInputElement).setSelectionRange(0, 0);
               });
             }
           }
