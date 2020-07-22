@@ -36,7 +36,7 @@
     <title>React Digit Input</title>
     <style>
       body {
-        font-size: 5em;
+        font-size: 3em;
         background: #2a4365;
         height: 100vh;
         display: flex;
@@ -44,19 +44,49 @@
         align-items: center;
         justify-content: center;
       }
+      @media (min-width: 800px) {
+        body {
+          font-size: 5em;
+        }
+      }
       pre {
         text-align: center;
       }
       .input-group {
         display: flex;
         align-items: center;
-        gap: 0.2em;
+      }
+      .input-group > label,
+      .input-group > span {
+        margin-right: 0.1em;
+      }
+      .input-group > label:last-child,
+      .input-group > span:last-child {
+        margin-right: 0;
+      }
+      @media (min-width: 800px) {
+        .input-group > label,
+        .input-group > span {
+          margin-right: 0.2em;
+        }
+        .input-group > label:last-child,
+        .input-group > span:last-child {
+          margin-right: 0;
+        }
       }
       .hyphen {
         background: black;
         height: 0.1em;
-        width: 0.5em;
+        width: 0.25em;
         display: inline-block;
+      }
+      @media (min-width: 800px) {
+        .hyphen {
+          background: black;
+          height: 0.1em;
+          width: 0.5em;
+          display: inline-block;
+        }
       }
 
       label {
