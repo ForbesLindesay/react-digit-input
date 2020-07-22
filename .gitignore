@@ -26,3 +26,6 @@ node_modules
 environment.toml
 .env
 yarn.lock
+
+demo/index.js
+demo/index.js.map
