@@ -14,6 +14,7 @@
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "browserify": "^16.5.1",
+    "envify": "^4.1.0",
     "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
@@ -29,6 +30,7 @@
     "ts-jest": "*",
     "typescript": "^3.9.7",
     "uglify-js": "^3.10.0",
+    "uglifyify": "^5.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },

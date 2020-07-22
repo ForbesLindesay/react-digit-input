@@ -7,11 +7,24 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var log = require('gulplog');
+var envify = require('envify/custom');
 
 var b = browserify({
   entries: './lib/demo/client.js',
   debug: true,
-  transform: [require('sourceify')],
+  transform: [
+    [
+      envify({
+        NODE_ENV: 'production',
+      }),
+
+      {
+        global: true,
+      },
+    ],
+    [require('uglifyify'), {global: true}],
+    require('sourceify'),
+  ],
 });
 
 b.bundle()
