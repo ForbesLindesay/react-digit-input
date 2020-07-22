@@ -19,8 +19,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: sudo apt-get install xvfb
-      - run: xvfb-run --auto-servernum yarn test
 
   publish:
     runs-on: ubuntu-latest

@@ -8,17 +8,12 @@
   "files": [
     "lib/"
   ],
-  "dependencies": {
-    "w3c-keyname": "^1.1.7"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/express": "^4.0.39",
     "@types/jest": "*",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "browserify": "^16.5.1",
-    "browserify-middleware": "^8.0.0",
-    "express": "^4.16.2",
     "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
@@ -27,7 +22,6 @@
     "jest": "*",
     "lint-staged": "*",
     "mkdirp": "^1.0.4",
-    "mold-source-map": "^0.4.0",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
