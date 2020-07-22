@@ -4,7 +4,7 @@ import {useRef} from 'react';
 export interface InputAttributes
   extends Pick<
     React.InputHTMLAttributes<HTMLInputElement>,
-    'value' | 'onKeyDown' | 'onChange'
+    'value' | 'onClick' | 'onFocus' | 'onKeyDown' | 'onChange'
   > {
   ref: (input: HTMLInputElement | null) => void;
 }
@@ -40,6 +40,14 @@ export default function useDigitInput({
     props.push({
       ref,
       value: digitValue,
+      onClick: ({currentTarget}) => {
+        window.requestAnimationFrame(() => {
+          currentTarget.setSelectionRange(0, 1);
+        });
+      },
+      onFocus: ({currentTarget}) => {
+        currentTarget.setSelectionRange(0, 1);
+      },
       onKeyDown: (e) => {
         switch (e.key) {
           case 'Backspace':
@@ -59,6 +67,7 @@ export default function useDigitInput({
               onChange(val.substring(0, i) + ' ' + val.substring(i + 1));
             }
             break;
+          case 'ArrowUp':
           case 'ArrowLeft':
             e.preventDefault();
             if (i > 0) {
@@ -71,6 +80,7 @@ export default function useDigitInput({
               }
             }
             break;
+          case 'ArrowDown':
           case 'ArrowRight':
             e.preventDefault();
             if (i + 1 < length) {
@@ -93,9 +103,14 @@ export default function useDigitInput({
                   if (nextInput) {
                     nextInput.focus();
                     window.requestAnimationFrame(() => {
-                      nextInput.setSelectionRange(0, 0);
+                      nextInput.setSelectionRange(0, 1);
                     });
                   }
+                } else {
+                  const currentTarget = e.currentTarget;
+                  window.requestAnimationFrame(() => {
+                    currentTarget.setSelectionRange(0, 1);
+                  });
                 }
               }
             }
@@ -118,7 +133,7 @@ export default function useDigitInput({
           if (nextInput) {
             nextInput.focus();
             window.requestAnimationFrame(() => {
-              nextInput.setSelectionRange(0, 0);
+              nextInput.setSelectionRange(0, 1);
             });
           }
         }
