@@ -1,5 +1,3 @@
 # Changelog
 
-## v0.0.1: 2017-xx-xx
-
-- Initial release
+See [Releases](https://github.com/ForbesLindesay/react-digit-input/releases)
