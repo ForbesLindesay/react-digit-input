@@ -5,6 +5,7 @@
     "lib": ["dom", "es2017"],
     "outDir": "lib",
     "strict": true,
-    "jsx": "react"
+    "jsx": "react",
+    "sourceMap": true
   }
 }
